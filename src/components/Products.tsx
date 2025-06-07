@@ -1,266 +1,263 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { 
-  CreditCard, 
-  ShoppingCart, 
-  BarChart3, 
-  Users, 
-  Calendar, 
-  Smartphone,
-  Filter,
+  ShoppingBag, 
+  Clock, 
+  Star, 
+  MapPin, 
+  Truck, 
+  Smartphone, 
+  CreditCard,
+  Shield,
+  Users,
+  Award,
   ArrowRight,
-  Star,
   CheckCircle,
-  Zap
+  Zap,
+  Heart,
+  Globe
 } from 'lucide-react';
 
-const Products = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+export default function Products() {
+  const [activeTab, setActiveTab] = useState(0);
 
-  const categories = [
-    { id: 'all', name: 'All Solutions', count: 6 },
-    { id: 'pos', name: 'Point of Sale', count: 2 },
-    { id: 'online', name: 'Online Ordering', count: 2 },
-    { id: 'analytics', name: 'Analytics', count: 2 }
-  ];
-
-  const products = [
+  const services = [
     {
       id: 1,
-      category: 'pos',
-      title: 'Smart POS System',
-      subtitle: 'Next-Generation Point of Sale',
-      description: 'Intuitive, cloud-based POS system designed for modern restaurants with advanced inventory management and real-time reporting.',
-      icon: CreditCard,
-      features: ['Cloud-Based', 'Real-Time Sync', 'Inventory Management', 'Multi-Location'],
-      price: 'Starting at $99/month',
-      rating: 4.9,
-      reviews: 234,
-      color: 'from-orange-400 to-red-500',
-      bgPattern: 'pos-pattern'
+      title: "Food Delivery",
+      description: "Get your favorite meals delivered fresh and fast",
+      icon: <Truck className="w-8 h-8" />,
+      features: ["25min delivery", "Real-time tracking", "500+ restaurants"],
+      color: "text-delivery-green",
+      bgColor: "bg-light-green",
+      image: "🍔"
     },
     {
       id: 2,
-      category: 'pos',
-      title: 'Mobile POS',
-      subtitle: 'Tableside Service Revolution',
-      description: 'Empower your staff with mobile ordering capabilities, reducing wait times and enhancing customer satisfaction.',
-      icon: Smartphone,
-      features: ['Tableside Ordering', 'Payment Processing', 'Kitchen Integration', 'Staff Management'],
-      price: 'Starting at $79/month',
-      rating: 4.8,
-      reviews: 189,
-      color: 'from-blue-400 to-purple-500',
-      bgPattern: 'mobile-pattern'
+      title: "Restaurant Tech",
+      description: "Complete technology solutions for restaurants",
+      icon: <Smartphone className="w-8 h-8" />,
+      features: ["POS Systems", "Online ordering", "Analytics dashboard"],
+      color: "text-delivery-orange",
+      bgColor: "bg-light-orange",
+      image: "📱"
     },
     {
       id: 3,
-      category: 'online',
-      title: 'Online Ordering Platform',
-      subtitle: 'Seamless Digital Experience',
-      description: 'Complete online ordering solution with customizable menus, delivery tracking, and integrated payment processing.',
-      icon: ShoppingCart,
-      features: ['Custom Branding', 'Delivery Tracking', 'Menu Management', 'Customer Profiles'],
-      price: 'Starting at $149/month',
-      rating: 4.9,
-      reviews: 312,
-      color: 'from-green-400 to-teal-500',
-      bgPattern: 'online-pattern'
+      title: "Payment Solutions",
+      description: "Secure and seamless payment processing",
+      icon: <CreditCard className="w-8 h-8" />,
+      features: ["Multiple payment methods", "Secure processing", "Instant settlements"],
+      color: "text-blue-500",
+      bgColor: "bg-blue-50",
+      image: "💳"
     },
     {
       id: 4,
-      category: 'online',
-      title: 'Delivery Management',
-      subtitle: 'Optimize Your Delivery Operations',
-      description: 'Advanced delivery management system with route optimization, driver tracking, and customer communication.',
-      icon: Users,
-      features: ['Route Optimization', 'Driver Tracking', 'Customer Updates', 'Performance Analytics'],
-      price: 'Starting at $129/month',
-      rating: 4.7,
-      reviews: 156,
-      color: 'from-yellow-400 to-orange-500',
-      bgPattern: 'delivery-pattern'
-    },
-    {
-      id: 5,
-      category: 'analytics',
-      title: 'Business Intelligence',
-      subtitle: 'Data-Driven Decision Making',
-      description: 'Comprehensive analytics dashboard providing insights into sales, customer behavior, and operational efficiency.',
-      icon: BarChart3,
-      features: ['Real-Time Dashboards', 'Predictive Analytics', 'Custom Reports', 'KPI Tracking'],
-      price: 'Starting at $199/month',
-      rating: 4.9,
-      reviews: 278,
-      color: 'from-purple-400 to-pink-500',
-      bgPattern: 'analytics-pattern'
-    },
-    {
-      id: 6,
-      category: 'analytics',
-      title: 'Reservation System',
-      subtitle: 'Smart Table Management',
-      description: 'Intelligent reservation and table management system with waitlist optimization and customer preferences.',
-      icon: Calendar,
-      features: ['Smart Scheduling', 'Waitlist Management', 'Customer Preferences', 'Staff Coordination'],
-      price: 'Starting at $89/month',
-      rating: 4.8,
-      reviews: 203,
-      color: 'from-indigo-400 to-blue-500',
-      bgPattern: 'reservation-pattern'
+      title: "Customer Support",
+      description: "24/7 support for customers and restaurants",
+      icon: <Users className="w-8 h-8" />,
+      features: ["24/7 availability", "Live chat", "Phone support"],
+      color: "text-purple-500",
+      bgColor: "bg-purple-50",
+      image: "🎧"
     }
   ];
 
-  const filteredProducts = activeCategory === 'all' 
-    ? products 
-    : products.filter(product => product.category === activeCategory);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+  const features = [
+    {
+      title: "Lightning Fast Delivery",
+      description: "Average delivery time of 25 minutes with real-time tracking",
+      icon: <Zap className="w-6 h-6" />,
+      color: "text-delivery-green"
+    },
+    {
+      title: "Secure Payments",
+      description: "Multiple payment options with bank-level security",
+      icon: <Shield className="w-6 h-6" />,
+      color: "text-blue-500"
+    },
+    {
+      title: "Quality Guaranteed",
+      description: "Only partner with top-rated restaurants",
+      icon: <Star className="w-6 h-6" />,
+      color: "text-yellow-500"
+    },
+    {
+      title: "24/7 Support",
+      description: "Always here to help with any issues",
+      icon: <Heart className="w-6 h-6" />,
+      color: "text-red-500"
     }
+  ];
 
-    return () => observer.disconnect();
-  }, []);
+  const stats = [
+    { number: "500+", label: "Restaurants", icon: "🍽️" },
+    { number: "50K+", label: "Happy Users", icon: "😊" },
+    { number: "25min", label: "Avg Delivery", icon: "⚡" },
+    { number: "4.9★", label: "App Rating", icon: "⭐" }
+  ];
 
   return (
-    <section id="products" ref={sectionRef} className="py-24 bg-gradient-to-br from-olive-50 via-white to-orange-25 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-orange-200 rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 bg-olive-200 rounded-full animate-float"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
+    <section id="products" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
         <div className="text-center mb-16">
-          <div className={`inline-flex items-center glass rounded-full px-6 py-3 mb-6 ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
-            <Zap className="h-5 w-5 text-orange-600 mr-2" />
-            <span className="text-orange-600 font-semibold text-lg">Our Solutions</span>
+          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-delivery-green/10 border border-delivery-green/20 rounded-full mb-6">
+            <ShoppingBag className="w-4 h-4 text-delivery-green" />
+            <span className="text-sm font-semibold text-delivery-green">Our Services</span>
           </div>
-          <h2 className={`text-4xl md:text-6xl font-bold font-display text-olive-900 mb-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.2s'}}>
-            Powerful Tools for <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500">Modern Restaurants</span>
+          
+          <h2 className="text-delivery-lg font-display text-gray-900 mb-6">
+            Everything You Need for
+            <span className="block text-delivery-green">Food Delivery Success</span>
           </h2>
-          <p className={`text-lg text-olive-700 max-w-3xl mx-auto ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.4s'}}>
-            Discover our comprehensive suite of restaurant technology solutions designed to streamline operations, boost efficiency, and enhance customer experiences.
+          
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            From lightning-fast delivery to comprehensive restaurant technology, 
+            we provide complete solutions for the modern food industry.
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className={`flex flex-wrap justify-center gap-4 mb-16 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.6s'}}>
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-lg'
-                  : 'glass text-olive-700 hover:bg-white/30'
-              } btn-magnetic`}
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {services.map((service, index) => (
+            <div 
+              key={service.id}
+              className="delivery-card p-6 text-center hover:scale-105 transform transition-all duration-300"
             >
-              <Filter className="h-4 w-4 mr-2" />
-              {category.name}
-              <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                activeCategory === category.id ? 'bg-white/20' : 'bg-olive-100'
-              }`}>
-                {category.count}
-              </span>
-            </button>
+              <div className="text-4xl mb-4">{service.image}</div>
+              <div className={`w-16 h-16 ${service.bgColor} rounded-2xl mx-auto mb-4 flex items-center justify-center ${service.color}`}>
+                {service.icon}
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{service.title}</h3>
+              <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+              <div className="space-y-2">
+                {service.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center justify-center space-x-2">
+                    <CheckCircle className="w-4 h-4 text-delivery-green" />
+                    <span className="text-sm text-gray-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="w-full btn-delivery-primary mt-4 py-2 rounded-lg font-semibold">
+                Learn More
+              </button>
+            </div>
           ))}
         </div>
 
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, index) => {
-            const Icon = product.icon;
-            return (
-              <div
-                key={product.id}
-                className={`card-hover glass rounded-3xl overflow-hidden group ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}
-                style={{animationDelay: `${0.8 + index * 0.1}s`}}
+        {/* Features Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              Why Choose Our Platform?
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Built with cutting-edge technology and designed for the best user experience
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="delivery-card p-6 text-center hover:scale-105 transform transition-all duration-300"
               >
-                {/* Card Header */}
-                <div className={`relative p-8 bg-gradient-to-br ${product.color} text-white`}>
-                  <div className="absolute inset-0 opacity-10">
-                    <div className="w-full h-full bg-repeat" 
-                         style={{
-                           backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='white' fill-opacity='0.1'%3E%3Cpath d='M20 20c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8zm0-20c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8z'/%3E%3C/g%3E%3C/svg%3E")`,
-                           backgroundSize: '40px 40px'
-                         }}>
-                    </div>
-                  </div>
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-white/20 rounded-full">
-                        <Icon className="h-8 w-8" />
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 fill-current" />
-                        <span className="text-sm font-semibold">{product.rating}</span>
-                        <span className="text-xs opacity-80">({product.reviews})</span>
-                      </div>
-                    </div>
-                    <h3 className="text-2xl font-bold mb-2">{product.title}</h3>
-                    <p className="text-sm opacity-90">{product.subtitle}</p>
-                  </div>
+                <div className={`w-12 h-12 bg-gray-100 rounded-xl mx-auto mb-4 flex items-center justify-center ${feature.color}`}>
+                  {feature.icon}
                 </div>
-
-                {/* Card Body */}
-                <div className="p-8">
-                  <p className="text-olive-700 mb-6 leading-relaxed">{product.description}</p>
-                  
-                  {/* Features */}
-                  <div className="space-y-3 mb-6">
-                    {product.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center">
-                        <CheckCircle className="h-4 w-4 text-green-500 mr-3 flex-shrink-0" />
-                        <span className="text-sm text-olive-700">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Pricing */}
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-2xl font-bold text-olive-900">{product.price}</span>
-                    <span className="text-sm text-olive-600">per location</span>
-                  </div>
-
-                  {/* CTA Button */}
-                  <button className="w-full btn-gradient text-white font-semibold py-3 rounded-full shadow-lg btn-magnetic flex items-center justify-center space-x-2 group-hover:shadow-xl transition-all duration-300">
-                    <span>Learn More</span>
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
-                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h4>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div className={`text-center mt-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '1.4s'}}>
-          <div className="glass rounded-3xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-3xl font-bold text-olive-900 mb-4">Ready to Transform Your Operations?</h3>
-            <p className="text-lg text-olive-700 mb-8">
-              Get a personalized demo of our solutions and see how they can revolutionize your restaurant business.
+        {/* Stats Section */}
+        <div className="mb-20">
+          <div className="feature-highlight">
+            <div className="relative z-10">
+              <div className="text-center mb-8">
+                <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+                  Trusted by Thousands
+                </h3>
+                <p className="text-gray-600">
+                  Join the growing community of satisfied customers and restaurant partners
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <div className="text-3xl mb-2">{stat.icon}</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
+                    <div className="text-gray-600 font-medium">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* How It Works */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              How It Works
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Simple steps to get your favorite food delivered
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-delivery-green/10 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-delivery-green">1</span>
+              </div>
+              <h4 className="text-lg font-bold text-gray-900 mb-2">Choose Restaurant</h4>
+              <p className="text-gray-600">Browse 500+ restaurants and select your favorites</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-delivery-orange/10 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-delivery-orange">2</span>
+              </div>
+              <h4 className="text-lg font-bold text-gray-900 mb-2">Place Order</h4>
+              <p className="text-gray-600">Add items to cart and securely checkout</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-500/10 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span className="text-2xl font-bold text-blue-500">3</span>
+              </div>
+              <h4 className="text-lg font-bold text-gray-900 mb-2">Enjoy Food</h4>
+              <p className="text-gray-600">Track delivery and enjoy your meal</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center">
+          <div className="delivery-card p-8 max-w-2xl mx-auto">
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              Ready to Get Started?
+            </h3>
+            <p className="text-gray-600 mb-8">
+              Join thousands of satisfied customers and start ordering today
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-gradient text-white font-semibold px-8 py-4 rounded-full shadow-xl btn-magnetic">
-                Schedule Demo
+              <button className="btn-delivery-primary px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center space-x-2">
+                <ShoppingBag className="w-5 h-5" />
+                <span>Start Ordering</span>
+                <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="glass text-olive-700 font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-white/30 btn-magnetic">
-                View Pricing
+              <button className="btn-delivery-outline px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center space-x-2">
+                <Globe className="w-5 h-5" />
+                <span>Partner With Us</span>
               </button>
             </div>
           </div>
@@ -268,6 +265,4 @@ const Products = () => {
       </div>
     </section>
   );
-};
-
-export default Products; 
+} 

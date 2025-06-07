@@ -1,402 +1,369 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { 
   MapPin, 
   Clock, 
-  DollarSign, 
   Users, 
+  Truck, 
   Heart, 
-  Zap, 
-  Shield, 
-  GraduationCap,
-  Coffee,
-  Plane,
-  ChevronDown,
-  ChevronRight,
-  Briefcase,
   Star,
-  Award
+  ArrowRight,
+  Briefcase,
+  Code,
+  Headphones,
+  TrendingUp,
+  Award,
+  Coffee,
+  Wifi,
+  GraduationCap,
+  Shield
 } from 'lucide-react';
 
-const Careers = () => {
-  const [expandedJob, setExpandedJob] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+export default function Careers() {
+  const [selectedJob, setSelectedJob] = useState(null);
 
-  const benefits = [
-    {
-      icon: Heart,
-      title: "Health & Wellness",
-      description: "Comprehensive health insurance, dental, vision, and mental health support",
-      color: "from-red-100 to-pink-100",
-      iconColor: "text-red-500"
-    },
-    {
-      icon: GraduationCap,
-      title: "Learning & Development",
-      description: "Annual learning budget, conference attendance, and skill development programs",
-      color: "from-blue-100 to-indigo-100",
-      iconColor: "text-blue-500"
-    },
-    {
-      icon: Coffee,
-      title: "Work-Life Balance",
-      description: "Flexible hours, remote work options, and unlimited PTO policy",
-      color: "from-yellow-100 to-orange-100",
-      iconColor: "text-yellow-600"
-    },
-    {
-      icon: Plane,
-      title: "Travel & Perks",
-      description: "Travel allowance, team retreats, and exclusive restaurant partnerships",
-      color: "from-green-100 to-teal-100",
-      iconColor: "text-green-500"
-    },
-    {
-      icon: DollarSign,
-      title: "Competitive Compensation",
-      description: "Above-market salaries, equity options, and performance bonuses",
-      color: "from-purple-100 to-violet-100",
-      iconColor: "text-purple-500"
-    },
-    {
-      icon: Shield,
-      title: "Security & Stability",
-      description: "401(k) matching, life insurance, and long-term disability coverage",
-      color: "from-gray-100 to-slate-100",
-      iconColor: "text-gray-600"
-    }
+  const jobCategories = [
+    { id: 'all', name: 'All Positions', count: 12 },
+    { id: 'tech', name: 'Technology', count: 5 },
+    { id: 'operations', name: 'Operations', count: 4 },
+    { id: 'customer', name: 'Customer Success', count: 3 }
   ];
 
   const jobs = [
     {
       id: 1,
-      title: "Senior Full Stack Developer",
-      department: "Engineering",
-      location: "Remote / San Francisco",
+      title: "Senior Software Engineer",
+      department: "Technology",
+      location: "Boston, MA",
       type: "Full-time",
-      salary: "$120k - $180k",
-      experience: "5+ years",
-      description: "Join our engineering team to build next-generation restaurant technology solutions. You'll work on scalable systems that power thousands of restaurants worldwide.",
-      requirements: [
-        "5+ years of full-stack development experience",
-        "Proficiency in React, Node.js, and TypeScript",
-        "Experience with cloud platforms (AWS, GCP, or Azure)",
-        "Strong understanding of database design and optimization",
-        "Experience with microservices architecture"
-      ],
-      responsibilities: [
-        "Design and develop scalable web applications",
-        "Collaborate with product and design teams",
-        "Mentor junior developers and conduct code reviews",
-        "Optimize application performance and user experience",
-        "Participate in architectural decisions and technical planning"
-      ],
+      level: "Senior",
+      description: "Build the future of food delivery technology",
+      requirements: ["5+ years React/Node.js", "Cloud platforms experience", "Microservices architecture"],
+      salary: "$120K - $160K",
+      category: "tech",
       featured: true
     },
     {
       id: 2,
-      title: "Product Manager",
-      department: "Product",
-      location: "New York / Remote",
+      title: "Delivery Operations Manager",
+      department: "Operations",
+      location: "Boston, MA",
       type: "Full-time",
-      salary: "$110k - $160k",
-      experience: "3+ years",
-      description: "Lead product strategy and execution for our restaurant management platform. Drive innovation and ensure our products meet the evolving needs of restaurant owners.",
-      requirements: [
-        "3+ years of product management experience",
-        "Experience in B2B SaaS or restaurant technology",
-        "Strong analytical and problem-solving skills",
-        "Excellent communication and leadership abilities",
-        "Data-driven approach to product decisions"
-      ],
-      responsibilities: [
-        "Define product roadmap and strategy",
-        "Conduct market research and competitive analysis",
-        "Work closely with engineering and design teams",
-        "Gather and prioritize customer feedback",
-        "Drive product launches and go-to-market strategies"
-      ],
+      level: "Mid-Level",
+      description: "Optimize delivery routes and manage driver network",
+      requirements: ["Operations experience", "Data analysis skills", "Team leadership"],
+      salary: "$80K - $110K",
+      category: "operations",
       featured: false
     },
     {
       id: 3,
-      title: "UX/UI Designer",
-      department: "Design",
-      location: "Los Angeles / Remote",
+      title: "Customer Success Specialist",
+      department: "Customer Success",
+      location: "Remote",
       type: "Full-time",
-      salary: "$90k - $130k",
-      experience: "3+ years",
-      description: "Create intuitive and beautiful user experiences for restaurant owners and their customers. Help shape the future of restaurant technology through thoughtful design.",
-      requirements: [
-        "3+ years of UX/UI design experience",
-        "Proficiency in Figma, Sketch, or similar tools",
-        "Strong portfolio showcasing design process",
-        "Experience with user research and testing",
-        "Understanding of responsive and mobile design"
-      ],
-      responsibilities: [
-        "Design user interfaces for web and mobile applications",
-        "Conduct user research and usability testing",
-        "Create wireframes, prototypes, and design systems",
-        "Collaborate with product and engineering teams",
-        "Ensure consistent brand experience across products"
-      ],
+      level: "Entry-Level",
+      description: "Help customers have amazing food delivery experiences",
+      requirements: ["Customer service experience", "Communication skills", "Problem solving"],
+      salary: "$50K - $70K",
+      category: "customer",
       featured: false
     },
     {
       id: 4,
-      title: "Customer Success Manager",
-      department: "Customer Success",
-      location: "Chicago / Remote",
+      title: "Product Designer",
+      department: "Technology",
+      location: "Boston, MA",
       type: "Full-time",
-      salary: "$70k - $100k",
-      experience: "2+ years",
-      description: "Help restaurant owners succeed with our platform. Build relationships, drive adoption, and ensure customer satisfaction throughout their journey.",
-      requirements: [
-        "2+ years in customer success or account management",
-        "Experience in SaaS or restaurant industry preferred",
-        "Excellent communication and interpersonal skills",
-        "Problem-solving mindset and customer-first attitude",
-        "Ability to work with technical and non-technical stakeholders"
-      ],
-      responsibilities: [
-        "Onboard new customers and ensure successful implementation",
-        "Build and maintain strong customer relationships",
-        "Identify opportunities for account growth and expansion",
-        "Provide product training and ongoing support",
-        "Collaborate with sales and product teams on customer feedback"
-      ],
-      featured: false
+      level: "Mid-Level",
+      description: "Design beautiful and intuitive user experiences",
+      requirements: ["UI/UX design experience", "Figma proficiency", "Mobile design"],
+      salary: "$90K - $120K",
+      category: "tech",
+      featured: true
     }
+  ];
+
+  const benefits = [
+    {
+      icon: <Heart className="w-6 h-6" />,
+      title: "Health & Wellness",
+      description: "Comprehensive health insurance, dental, and vision coverage",
+      color: "text-red-500",
+      bgColor: "bg-red-50"
+    },
+    {
+      icon: <Coffee className="w-6 h-6" />,
+      title: "Work-Life Balance",
+      description: "Flexible hours, unlimited PTO, and remote work options",
+      color: "text-delivery-orange",
+      bgColor: "bg-light-orange"
+    },
+    {
+      icon: <GraduationCap className="w-6 h-6" />,
+      title: "Learning & Growth",
+      description: "Professional development budget and conference attendance",
+      color: "text-blue-500",
+      bgColor: "bg-blue-50"
+    },
+    {
+      icon: <Award className="w-6 h-6" />,
+      title: "Equity & Bonuses",
+      description: "Stock options and performance-based bonuses",
+      color: "text-delivery-green",
+      bgColor: "bg-light-green"
+    }
+  ];
+
+  const perks = [
+    "🍕 Free daily meals from partner restaurants",
+    "🏠 Remote work flexibility",
+    "💰 Competitive salary & equity",
+    "🏥 Premium health benefits",
+    "🎓 $2,000 learning budget",
+    "🏖️ Unlimited vacation policy"
   ];
 
   const stats = [
-    { icon: Users, value: "50+", label: "Team Members" },
-    { icon: Star, value: "4.8/5", label: "Employee Rating" },
-    { icon: Award, value: "95%", label: "Retention Rate" },
-    { icon: Zap, value: "3x", label: "Growth Rate" }
+    { number: "150+", label: "Team Members", icon: "👥" },
+    { number: "4.8★", label: "Glassdoor Rating", icon: "⭐" },
+    { number: "95%", label: "Employee Satisfaction", icon: "😊" },
+    { number: "12", label: "Open Positions", icon: "💼" }
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const toggleJob = (jobId: number) => {
-    setExpandedJob(expandedJob === jobId ? null : jobId);
-  };
-
   return (
-    <section id="careers" ref={sectionRef} className="py-24 bg-gradient-to-br from-white via-olive-25 to-orange-25 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 w-80 h-80 bg-olive-200 rounded-full animate-float"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-orange-200 rounded-full animate-pulse-slow"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <div className={`inline-flex items-center glass rounded-full px-6 py-3 mb-6 ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
-            <Briefcase className="h-5 w-5 text-orange-600 mr-2" />
-            <span className="text-orange-600 font-semibold text-lg">Join Our Team</span>
+    <section id="careers" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-delivery-green/10 border border-delivery-green/20 rounded-full mb-6">
+            <Briefcase className="w-4 h-4 text-delivery-green" />
+            <span className="text-sm font-semibold text-delivery-green">Join Our Team</span>
           </div>
-          <h2 className={`text-4xl md:text-6xl font-bold font-display text-olive-900 mb-6 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.2s'}}>
-            Build the Future of <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500">Restaurant Technology</span>
+          
+          <h2 className="text-delivery-lg font-display text-gray-900 mb-6">
+            Build the Future of
+            <span className="block text-delivery-green">Food Delivery</span>
           </h2>
-          <p className={`text-lg text-olive-700 max-w-3xl mx-auto ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.4s'}}>
-            Join a passionate team of innovators, creators, and problem-solvers who are revolutionizing the restaurant industry through cutting-edge technology.
+          
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Join our mission to revolutionize how people discover and enjoy great food. 
+            We're looking for passionate individuals who want to make a real impact.
           </p>
         </div>
 
-        {/* Company Stats */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.6s'}}>
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div key={index} className="card-hover glass rounded-2xl p-6 text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-full">
-                    <Icon className="h-6 w-6 text-orange-600" />
-                  </div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {stats.map((stat, index) => (
+            <div 
+              key={index}
+              className="delivery-card p-6 text-center hover:scale-105 transform transition-all duration-300"
+            >
+              <div className="text-4xl mb-3">{stat.icon}</div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
+              <div className="text-gray-600 font-medium">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Why Join Us */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              Why Work at Guhania?
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              We believe in creating an environment where everyone can do their best work
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {benefits.map((benefit, index) => (
+              <div 
+                key={index}
+                className="delivery-card p-6 text-center hover:scale-105 transform transition-all duration-300"
+              >
+                <div className={`w-16 h-16 ${benefit.bgColor} rounded-2xl mx-auto mb-4 flex items-center justify-center ${benefit.color}`}>
+                  {benefit.icon}
                 </div>
-                <div className="space-y-1">
-                  <p className="font-bold text-2xl text-olive-900">{stat.value}</p>
-                  <p className="text-sm font-semibold text-olive-600">{stat.label}</p>
-                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">{benefit.title}</h4>
+                <p className="text-gray-600 text-sm">{benefit.description}</p>
               </div>
-            );
-          })}
-        </div>
-
-        {/* Benefits Section */}
-        <div className={`mb-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '0.8s'}}>
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-olive-900 mb-4">Why Work With Us?</h3>
-            <p className="text-lg text-olive-700">We believe in taking care of our team with comprehensive benefits and a supportive culture</p>
+            ))}
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <div 
-                  key={index}
-                  className={`card-hover glass rounded-2xl p-6 bg-gradient-to-br ${benefit.color} animate-scale-in`}
-                  style={{animationDelay: `${1 + index * 0.1}s`}}
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-white/80 rounded-full shadow-lg flex-shrink-0">
-                      <Icon className={`h-6 w-6 ${benefit.iconColor}`} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-olive-900 mb-2">{benefit.title}</h4>
-                      <p className="text-olive-700">{benefit.description}</p>
-                    </div>
+          {/* Perks List */}
+          <div className="feature-highlight">
+            <div className="relative z-10 text-center">
+              <h4 className="text-xl font-bold text-gray-900 mb-6">Additional Perks</h4>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {perks.map((perk, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <span className="text-lg">{perk.split(' ')[0]}</span>
+                    <span className="text-gray-700 font-medium">{perk.substring(2)}</span>
                   </div>
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Job Listings */}
-        <div className={`${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '1.4s'}}>
+        {/* Open Positions */}
+        <div className="mb-20">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-olive-900 mb-4">Open Positions</h3>
-            <p className="text-lg text-olive-700">Discover exciting opportunities to grow your career with us</p>
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              Open Positions
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Find your next opportunity and help us shape the future of food delivery
+            </p>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-4">
-            {jobs.map((job, index) => (
+          <div className="space-y-4">
+            {jobs.map((job) => (
               <div 
                 key={job.id}
-                className={`glass rounded-2xl overflow-hidden card-hover ${job.featured ? 'ring-2 ring-orange-300' : ''}`}
+                className={`delivery-card p-6 hover:scale-102 transform transition-all duration-300 ${
+                  job.featured ? 'delivery-card-featured' : ''
+                }`}
               >
-                {/* Job Header */}
-                <div 
-                  className="p-6 cursor-pointer"
-                  onClick={() => toggleJob(job.id)}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h4 className="text-xl font-bold text-olive-900">{job.title}</h4>
-                        {job.featured && (
-                          <span className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-olive-600">
-                        <div className="flex items-center">
-                          <Briefcase className="h-4 w-4 mr-1" />
-                          {job.department}
-                        </div>
-                        <div className="flex items-center">
-                          <MapPin className="h-4 w-4 mr-1" />
-                          {job.location}
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          {job.type}
-                        </div>
-                        <div className="flex items-center">
-                          <DollarSign className="h-4 w-4 mr-1" />
-                          {job.salary}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      {expandedJob === job.id ? (
-                        <ChevronDown className="h-6 w-6 text-olive-600 transition-transform duration-300" />
-                      ) : (
-                        <ChevronRight className="h-6 w-6 text-olive-600 transition-transform duration-300" />
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h4 className="text-xl font-bold text-gray-900">{job.title}</h4>
+                      {job.featured && (
+                        <span className="success-badge">Featured</span>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                {/* Job Details */}
-                {expandedJob === job.id && (
-                  <div className="px-6 pb-6 border-t border-olive-100">
-                    <div className="pt-6 space-y-6">
-                      <div>
-                        <h5 className="font-semibold text-olive-900 mb-2">About the Role</h5>
-                        <p className="text-olive-700">{job.description}</p>
+                    
+                    <p className="text-gray-600 mb-3">{job.description}</p>
+                    
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
+                      <div className="flex items-center space-x-1">
+                        <MapPin className="w-4 h-4" />
+                        <span>{job.location}</span>
                       </div>
-
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                          <h5 className="font-semibold text-olive-900 mb-3">Requirements</h5>
-                          <ul className="space-y-2">
-                            {job.requirements.map((req, idx) => (
-                              <li key={idx} className="flex items-start">
-                                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                <span className="text-sm text-olive-700">{req}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h5 className="font-semibold text-olive-900 mb-3">Responsibilities</h5>
-                          <ul className="space-y-2">
-                            {job.responsibilities.map((resp, idx) => (
-                              <li key={idx} className="flex items-start">
-                                <div className="w-2 h-2 bg-olive-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                <span className="text-sm text-olive-700">{resp}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{job.type}</span>
                       </div>
-
-                      <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                        <button className="btn-gradient text-white font-semibold px-6 py-3 rounded-full shadow-lg btn-magnetic">
-                          Apply Now
-                        </button>
-                        <button className="glass text-olive-700 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-white/30 btn-magnetic">
-                          Learn More
-                        </button>
+                      <div className="flex items-center space-x-1">
+                        <TrendingUp className="w-4 h-4" />
+                        <span>{job.level}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Award className="w-4 h-4" />
+                        <span>{job.salary}</span>
                       </div>
                     </div>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {job.requirements.slice(0, 3).map((req, index) => (
+                        <span 
+                          key={index}
+                          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                        >
+                          {req}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                )}
+                  
+                  <div className="mt-4 lg:mt-0 lg:ml-6">
+                    <button className="btn-delivery-primary px-6 py-3 rounded-xl font-semibold flex items-center space-x-2">
+                      <span>Apply Now</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div className={`text-center mt-20 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{animationDelay: '1.8s'}}>
-          <div className="glass rounded-3xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-olive-900 mb-4">Don't See the Perfect Role?</h3>
-            <p className="text-olive-700 mb-6">
-              We're always looking for talented individuals to join our team. Send us your resume and let's start a conversation.
+        {/* Culture Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="text-delivery-md font-display text-gray-900 mb-4">
+              Our Culture
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              We're building more than just a company – we're creating a community
             </p>
-            <button className="btn-gradient text-white font-semibold px-8 py-4 rounded-full shadow-xl btn-magnetic">
-              Send Your Resume
-            </button>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="delivery-card p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-delivery-green/10 rounded-xl flex items-center justify-center text-delivery-green">
+                    <Heart className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">Customer Obsessed</h4>
+                    <p className="text-gray-600">Every decision we make starts with our customers and restaurant partners in mind.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="delivery-card p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-delivery-orange/10 rounded-xl flex items-center justify-center text-delivery-orange">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">Team First</h4>
+                    <p className="text-gray-600">We support each other, celebrate wins together, and learn from our mistakes.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="delivery-card p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500">
+                    <Code className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">Innovation Driven</h4>
+                    <p className="text-gray-600">We're always looking for better ways to solve problems and improve experiences.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="food-category-card h-96 flex items-center justify-center text-6xl">
+              👥💼🚀
+              <div className="absolute inset-0 bg-gradient-to-tr from-delivery-green/10 to-delivery-orange/10 rounded-2xl"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center">
+          <div className="feature-highlight max-w-4xl mx-auto">
+            <div className="relative z-10">
+              <h3 className="text-delivery-lg font-display text-gray-900 mb-4">
+                Ready to Join Our Mission?
+              </h3>
+              <p className="text-gray-600 mb-8 text-lg">
+                Don't see the perfect role? We're always looking for talented people who share our passion.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="btn-delivery-primary px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center space-x-2">
+                  <Briefcase className="w-5 h-5" />
+                  <span>View All Positions</span>
+                </button>
+                <button className="btn-delivery-outline px-8 py-4 rounded-xl text-lg font-semibold flex items-center justify-center space-x-2">
+                  <Heart className="w-5 h-5" />
+                  <span>Send Resume</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Careers; 
+} 

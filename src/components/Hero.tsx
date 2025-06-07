@@ -1,151 +1,174 @@
 'use client';
 
-import { ArrowRight, Play, TrendingUp, Users, Star, Zap, Shield, Swords } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  MapPin, 
+  ArrowRight,
+  Play,
+  Shield,
+  Clock,
+  Star
+} from 'lucide-react';
 
-const Hero = () => {
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+export default function Hero() {
+  const [searchLocation, setSearchLocation] = useState('');
 
-  const scrollToProducts = () => {
-    const element = document.querySelector('#products');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const featuredRestaurants = [
+    { name: "Tony's Italian", cuisine: "Italian", rating: 4.8, time: "25-35", emoji: "🍝" },
+    { name: "Dragon Palace", cuisine: "Chinese", rating: 4.9, time: "20-30", emoji: "🥡" },
+    { name: "Burger Haven", cuisine: "American", rating: 4.7, time: "15-25", emoji: "🍔" },
+    { name: "Sushi Masters", cuisine: "Japanese", rating: 4.9, time: "30-40", emoji: "🍣" }
+  ];
+
+  const stats = [
+    { number: "500+", label: "Restaurants", emoji: "🍽️" },
+    { number: "25 min", label: "Delivery", emoji: "⚡" },
+    { number: "4.9★", label: "Rating", emoji: "⭐" },
+    { number: "50K+", label: "Customers", emoji: "😊" }
+  ];
 
   return (
-    <section id="home" className="relative bg-shadow-900 min-h-screen flex items-center justify-center overflow-hidden pt-20 lg:pt-0">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-shadow-900 via-shadow-800 to-shadow-700">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-gradient-to-t from-shadow-900/90 to-transparent"></div>
-        </div>
-      </div>
-
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="text-center max-w-6xl mx-auto">
+    <section className="bg-white section-lg">
+      <div className="container">
+        
+        {/* Main Hero */}
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           
-          {/* Level Badge */}
-          <div className="inline-flex items-center level-badge rounded-full px-6 py-3 mb-8 animate-level-up">
-            <Shield className="h-6 w-6 mr-3 animate-shadow-pulse" />
-            <span className="text-lg font-gaming font-bold">LEVEL ∞ ELITE SOLUTIONS</span>
-            <Zap className="h-6 w-6 ml-3 animate-shadow-pulse" />
+          {/* Left Content */}
+          <div className="space-y-8">
+            {/* Badge */}
+            <div className="badge badge-green">
+              #1 Food Delivery in Boston
+            </div>
+
+            {/* Title */}
+            <div>
+              <h1 className="hero-title text-primary mb-4">
+                Craving something 
+                <span className="text-green"> delicious?</span>
+                <br />
+                <span className="text-orange">We deliver!</span>
+              </h1>
+              
+              <p className="hero-subtitle">
+                Get your favorite meals delivered fresh and fast from the best local restaurants. 
+                <strong className="text-green"> 500+ restaurants</strong> at your fingertips.
+              </p>
+            </div>
+
+            {/* Search */}
+            <div className="space-y-4">
+              <div className="flex bg-light rounded-xl p-2 max-w-lg">
+                <div className="flex items-center px-4">
+                  <MapPin className="icon text-green" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter your delivery address..."
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
+                  className="flex-1 bg-transparent px-4 py-3 text-base border-0 focus:outline-none"
+                />
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="btn btn-primary btn-lg">
+                  <span>Find Restaurants</span>
+                  <ArrowRight className="icon ml-2" />
+                </button>
+                
+                <button className="btn btn-outline btn-lg">
+                  <Play className="icon mr-2" />
+                  <span>Watch Demo</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="flex flex-wrap gap-6">
+              <div className="flex items-center space-x-2">
+                <Shield className="icon text-green" />
+                <span className="text-sm font-medium text-secondary">Safe Delivery</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Clock className="icon text-orange" />
+                <span className="text-sm font-medium text-secondary">30min or Less</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Star className="icon text-orange" />
+                <span className="text-sm font-medium text-secondary">Highly Rated</span>
+              </div>
+            </div>
           </div>
 
-          {/* Main Title with Glow Effect */}
-          <h1 className="text-6xl md:text-8xl font-bold font-display text-shadow-50 mb-8 animate-shadow-rise leading-tight">
-            <span className="text-glow">SHADOW</span>{' '}
-            <span className="text-power animate-mana-flow bg-clip-text">MONARCH</span>{' '}
-            <span className="text-glow">SOLUTIONS</span>
-          </h1>
+          {/* Right Content - Featured Restaurant */}
+          <div className="card card-padding text-center">
+            <div className="mb-6">
+              <h3 className="text-2xl font-bold text-primary mb-2">Featured Today</h3>
+              <p className="text-secondary">Handpicked favorites from top-rated restaurants</p>
+            </div>
 
-          <p className="text-xl md:text-2xl text-shadow-200 mb-12 max-w-4xl mx-auto animate-status-effect font-display" style={{animationDelay: '0.3s'}}>
-            Ascend beyond ordinary business solutions. Unlock your restaurant&apos;s true potential with our legendary-tier technology systems.
+            <div className="bg-light rounded-xl p-6 mb-6">
+              <div className="text-6xl mb-4">🍝</div>
+              <h4 className="text-xl font-bold text-primary mb-2">Tony's Italian Kitchen</h4>
+              <p className="text-secondary mb-4">Italian • $$</p>
+              
+              <div className="flex justify-center items-center gap-4 mb-4">
+                <div className="badge badge-orange">
+                  <Clock className="icon mr-1" />
+                  25-35 min
+                </div>
+                <div className="badge badge-green">
+                  <Star className="icon mr-1" />
+                  4.8
+                </div>
+              </div>
+              
+              <button className="btn btn-primary w-full">
+                View Menu
+              </button>
+            </div>
+
+            <div className="grid grid-cols-4 gap-2">
+              {featuredRestaurants.slice(1).map((restaurant, index) => (
+                <div key={index} className="bg-light rounded-lg p-3 text-center">
+                  <div className="text-2xl mb-1">{restaurant.emoji}</div>
+                  <div className="text-xs font-medium text-muted">{restaurant.rating}★</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {stats.map((stat, index) => (
+            <div key={index} className="card card-padding-sm text-center">
+              <div className="text-4xl mb-3">{stat.emoji}</div>
+              <div className="text-3xl font-bold text-primary mb-1">{stat.number}</div>
+              <div className="text-secondary font-medium">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="card card-padding text-center bg-light">
+          <h3 className="text-3xl font-bold text-primary mb-4">
+            Ready to satisfy your cravings?
+          </h3>
+          <p className="text-lg text-secondary mb-8 max-w-2xl mx-auto">
+            Join thousands of happy customers and experience the future of food delivery.
           </p>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-status-effect mb-16" style={{animationDelay: '0.6s'}}>
-            <button 
-              onClick={scrollToProducts}
-              className="glow-button font-gaming px-10 py-4 rounded-full text-xl flex items-center space-x-3 group"
-            >
-              <Swords className="h-6 w-6 group-hover:rotate-12 transition-transform" />
-              <span>ENTER DUNGEON</span>
-              <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="btn btn-primary btn-lg">
+              Start Ordering
             </button>
-            
-            <button 
-              onClick={scrollToContact}
-              className="power-card font-gaming px-10 py-4 rounded-full text-xl text-shadow-100 flex items-center space-x-3 group hover:text-white transition-colors"
-            >
-              <Play className="h-6 w-6 group-hover:scale-110 transition-transform" />
-              <span>REQUEST GUILD INVITE</span>
+            <button className="btn btn-secondary btn-lg">
+              Partner With Us
             </button>
-          </div>
-          
-          {/* Stats Cards - Solo Leveling Style */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left animate-status-effect" style={{animationDelay: '0.9s'}}>
-            
-            {/* Restaurants Conquered */}
-            <div className="shadow-card p-8 rounded-2xl group">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-xl border border-purple-500/30">
-                  <Users className="h-8 w-8 text-purple-400" />
-                </div>
-                <div className="level-badge px-3 py-1 rounded-lg text-sm">S-RANK</div>
-              </div>
-              <div className="mb-4">
-                <p className="font-gaming font-bold text-4xl text-shadow-50 mb-2">500+</p>
-                <p className="text-lg font-display text-shadow-300">Restaurants Conquered</p>
-              </div>
-              {/* XP Bar */}
-              <div className="stat-bar rounded-full h-2 mb-2">
-                <div className="stat-fill h-full rounded-full" style={{width: '85%'}}></div>
-              </div>
-              <p className="text-sm text-shadow-400 font-gaming">EXP: 850/1000</p>
-            </div>
-
-            {/* Power Level */}
-            <div className="shadow-card p-8 rounded-2xl group">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-4 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl border border-blue-500/30">
-                  <TrendingUp className="h-8 w-8 text-blue-400" />
-                </div>
-                <div className="level-badge px-3 py-1 rounded-lg text-sm">SSS-RANK</div>
-              </div>
-              <div className="mb-4">
-                <p className="font-gaming font-bold text-4xl text-shadow-50 mb-2">35%+</p>
-                <p className="text-lg font-display text-shadow-300">Power Level Boost</p>
-              </div>
-              {/* Mana Bar */}
-              <div className="stat-bar rounded-full h-2 mb-2">
-                <div className="stat-fill h-full rounded-full animate-mana-flow" style={{width: '90%'}}></div>
-              </div>
-              <p className="text-sm text-shadow-400 font-gaming">MANA: 900/1000</p>
-            </div>
-
-            {/* Guild Rating */}
-            <div className="shadow-card p-8 rounded-2xl group">
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-4 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl border border-yellow-500/30">
-                  <Star className="h-8 w-8 text-yellow-400" />
-                </div>
-                <div className="level-badge px-3 py-1 rounded-lg text-sm">LEGEND</div>
-              </div>
-              <div className="mb-4">
-                <p className="font-gaming font-bold text-4xl text-shadow-50 mb-2">4.9/5</p>
-                <p className="text-lg font-display text-shadow-300">Guild Rating</p>
-              </div>
-              {/* Health Bar */}
-              <div className="stat-bar rounded-full h-2 mb-2">
-                <div className="stat-fill h-full rounded-full" style={{width: '98%'}}></div>
-              </div>
-              <p className="text-sm text-shadow-400 font-gaming">HP: 980/1000</p>
-            </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
-            <div className="glass-shadow w-12 h-20 rounded-full flex justify-center pt-3 border border-purple-500/30">
-              <div className="w-3 h-6 bg-gradient-to-b from-purple-400 to-blue-400 rounded-full animate-shadow-pulse"></div>
-            </div>
           </div>
         </div>
-      </div>
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400 rounded-full animate-float opacity-60" style={{animationDelay: '0s'}}></div>
-        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-float opacity-40" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-cyan-400 rounded-full animate-float opacity-50" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-purple-300 rounded-full animate-float opacity-30" style={{animationDelay: '1.5s'}}></div>
       </div>
     </section>
   );
-};
-
-export default Hero; 
+} 

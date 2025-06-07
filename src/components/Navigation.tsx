@@ -1,112 +1,137 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, ChefHat } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, MapPin, Clock, ShoppingBag, Star } from 'lucide-react';
 
-const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Navigation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', href: '#home' },
+  const navigationItems = [
     { name: 'About', href: '#about' },
+    { name: 'Services', href: '#services' },
     { name: 'Products', href: '#products' },
     { name: 'Careers', href: '#careers' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Contact', href: '#contact' }
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsOpen(false);
-  };
-
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg border-b border-olive-100' : 'bg-transparent'}`}>
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          <button onClick={() => scrollToSection('#home')} className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-sm">
-              <ChefHat className="text-white h-6 w-6" />
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white shadow-md' : 'bg-white'
+    }`}>
+      <div className="container">
+        <div className="flex items-center justify-between h-16">
+          
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-green rounded-xl flex items-center justify-center">
+              <ShoppingBag className="icon text-white" />
             </div>
             <div>
-              <div className="text-xl font-bold tracking-tight text-olive-900">GUHANIA</div>
-              <div className="text-xs font-medium tracking-wider text-olive-600">
-                RESTAURANTGROUP
-              </div>
+              <div className="font-bold text-xl text-primary">Guhania</div>
+              <div className="text-xs text-green font-medium">Food Solutions</div>
             </div>
-          </button>
+            
+            {/* Location */}
+            <div className="hidden md:flex items-center space-x-2 ml-6 px-3 py-1 bg-light rounded-lg">
+              <MapPin className="icon text-green" />
+              <span className="text-sm font-medium text-secondary">Boston, MA</span>
+            </div>
+          </div>
 
-          <nav className="hidden md:flex items-center space-x-2">
-            {navItems.map((item) => (
-              <button
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-8">
+            {navigationItems.map((item) => (
+              <a
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 text-sm font-semibold text-olive-700 hover:text-orange-500 rounded-lg transition-colors"
+                href={item.href}
+                className="text-secondary hover:text-green font-medium text-sm transition-colors duration-200"
               >
                 {item.name}
-              </button>
+              </a>
             ))}
-          </nav>
+          </div>
 
+          {/* Right Side */}
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => scrollToSection('#contact')}
-              className="hidden md:flex items-center space-x-2 bg-orange-500 text-white font-semibold px-5 py-2.5 rounded-full shadow-lg hover:bg-orange-600 transition-transform transform hover:scale-105 duration-300 ease-in-out"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="h-4 w-4" />
+            {/* Delivery Time */}
+            <div className="hidden sm:flex items-center space-x-1 badge badge-green">
+              <Clock className="icon" />
+              <span className="font-semibold">25-35 min</span>
+            </div>
+
+            {/* Rating */}
+            <div className="hidden md:flex items-center space-x-1 badge badge-orange">
+              <Star className="icon" />
+              <span className="font-semibold">4.9</span>
+            </div>
+
+            {/* Order Button */}
+            <button className="btn btn-primary">
+              Order Now
             </button>
 
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-md text-olive-700 hover:bg-olive-100 focus:outline-none"
-              >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden p-2 rounded-lg text-secondary hover:bg-light"
+            >
+              {isMenuOpen ? <X className="icon" /> : <Menu className="icon" />}
+            </button>
           </div>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-white shadow-lg animate-slide-down">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
-              <button
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white border-t shadow-lg">
+          <div className="container py-4 space-y-3">
+            
+            {/* Location - Mobile */}
+            <div className="md:hidden flex items-center space-x-2 px-4 py-3 bg-light rounded-lg">
+              <MapPin className="icon text-green" />
+              <span className="font-medium text-secondary">Boston, MA</span>
+            </div>
+
+            {/* Navigation Items */}
+            {navigationItems.map((item) => (
+              <a
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-olive-700 hover:text-orange-500 hover:bg-olive-50"
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="block px-4 py-3 text-secondary hover:bg-light hover:text-green font-medium rounded-lg"
               >
                 {item.name}
-              </button>
+              </a>
             ))}
-          </div>
-          <div className="px-4 py-3 border-t border-olive-100">
-            <button
-              onClick={() => scrollToSection('#contact')}
-              className="w-full flex items-center justify-center space-x-2 bg-orange-500 text-white font-semibold px-5 py-3 rounded-full shadow-lg hover:bg-orange-600 transition-colors"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="h-4 w-4" />
+
+            {/* Mobile Stats */}
+            <div className="flex items-center justify-between px-4 py-3 bg-light rounded-lg">
+              <div className="badge badge-green">
+                <Clock className="icon mr-1" />
+                <span className="font-semibold">25-35 min</span>
+              </div>
+              <div className="badge badge-orange">
+                <Star className="icon mr-1" />
+                <span className="font-semibold">4.9</span>
+              </div>
+            </div>
+
+            {/* Mobile CTA */}
+            <button className="w-full btn btn-primary btn-lg">
+              🍔 Start Your Order
             </button>
           </div>
         </div>
       )}
-    </header>
+    </nav>
   );
-};
-
-export default Navigation; 
+} 
