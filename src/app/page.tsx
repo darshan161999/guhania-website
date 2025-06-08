@@ -69,7 +69,10 @@ export default function Home() {
             {/* AI-Driven Data Analytics & Marketing Automation */}
             <div className="bg-white/95 rounded-2xl shadow-xl p-7 hover:shadow-2xl transition-shadow border-t-4 border-purple-400">
               <h3 className="font-bold text-xl mb-3 text-purple-700">AI-Driven Data Analytics & Marketing Automation</h3>
-              <p className="text-gray-700">Unlock the power of your restaurant's data with our advanced analytics suite. Our AI algorithms identify customer preferences, forecast trends, and automate personalized marketing campaigns. This enables restaurants to boost customer engagement, increase repeat business, and maximize ROI with minimal manual effort.</p>
+              <p className="text-gray-700">
+  Unlock the power of your restaurant&apos;s data with our advanced analytics suite. Our AI algorithms identify customer preferences, forecast trends, and automate personalized marketing campaigns. This enables restaurants to boost customer engagement, increase repeat business, and maximize ROI with minimal manual effort.
+</p>
+
             </div>
             {/* Comprehensive Restaurant Management Platform */}
             <div className="bg-white/95 rounded-2xl shadow-xl p-7 hover:shadow-2xl transition-shadow border-t-4 border-pink-400 sm:col-span-2">
